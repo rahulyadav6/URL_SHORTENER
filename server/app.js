@@ -1,8 +1,13 @@
 import express from "express";
 const app = express();
 import urlRoutes from "./routes/urlRoutes.js"
+import { connectDB } from "./config/db.js";
+import dotenv from 'dotenv';
 
 
+dotenv.config();
+
+app.use(express.json())
 app.use("/api/url", urlRoutes);
 
 app.get("/", (req,res) =>{
@@ -11,5 +16,6 @@ app.get("/", (req,res) =>{
 
 
 app.listen(3000, ()=>{
-    console.log(`Listening to port 3000`);
+    console.log(`Listening to port ${process.env.PORT}`);
+    connectDB();
 })
