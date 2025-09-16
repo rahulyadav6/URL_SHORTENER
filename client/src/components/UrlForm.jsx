@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 const UrlForm = () => {
   
@@ -7,11 +8,27 @@ const UrlForm = () => {
   const [error, setError] = useState(null)
 
   const handleSubmit = async () => {
-    
+    setError(null);
+    setCopied(false);
+    try {
+      const response = await axios.post("http://localhost:3000/api/url/create", { url });
+      if (response.data && response.data.shortUrl) {
+        setShortUrl(response.data.shortUrl);
+        
+      } else {
+        setError("Failed to retrieve shortened URL.");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred while shortening the URL.");
+    }
   }
 
   const handleCopy = () => {
-    
+    navigator.clipboard.writeText(shortUrl);
+    setCopied(true);
+    setTimeout(()=>{
+        setCopied(false);
+    },2000)
   }
 
   return (
@@ -36,11 +53,13 @@ const UrlForm = () => {
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 cursor-pointer"
         >Shorten URL
         </button>
-         {error && (
+        {error && (
           <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
             {error}
           </div>
         )}
+
+
         {shortUrl && (
           <div className="mt-6">
             <h2 className="text-lg font-semibold mb-2">Your shortened URL:</h2>
@@ -53,7 +72,7 @@ const UrlForm = () => {
               />
                <button
                 onClick={handleCopy}
-                className={`px-4 py-2 rounded-r-md transition-colors duration-200 ${
+                className={`cursor-pointer px-4 py-2 rounded-r-md transition-colors duration-200 ${
                   copied 
                     ? 'bg-green-500 text-white hover:bg-green-600' 
                     : 'bg-gray-200 hover:bg-gray-300'
@@ -69,3 +88,7 @@ const UrlForm = () => {
 }
 
 export default UrlForm
+
+
+
+

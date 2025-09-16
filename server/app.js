@@ -3,10 +3,11 @@ const app = express();
 import urlRoutes from "./routes/urlRoutes.js"
 import { connectDB } from "./config/db.js";
 import dotenv from 'dotenv';
-
+import cors from "cors";
 
 dotenv.config();
 
+app.use(cors());
 app.use(express.json())
 app.use("/api/url", urlRoutes);
 
