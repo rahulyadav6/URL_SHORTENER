@@ -1,5 +1,6 @@
-import axios from 'axios'
-import React, { useState, useRef } from 'react'
+import axios from 'axios';
+import React, { useState, useRef } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 const UrlForm = () => {
   
     const shortUrlRef = useRef(null);
@@ -8,6 +9,7 @@ const UrlForm = () => {
   const [shortUrl, setShortUrl] = useState()
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState(null)
+  const [showQr, setShowQr] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleSubmit = async () => {
@@ -34,6 +36,10 @@ const UrlForm = () => {
         setCopied(false);
     },2000)
   }
+  const handleQr = ()=>{
+    setShowQr(!showQr);
+    console.log(showQr);
+  }
 
   return (
     <div className="space-y-4">
@@ -48,7 +54,7 @@ const UrlForm = () => {
             onInput={(event)=>setUrl(event.target.value)}
             placeholder="https://example.com"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full text-xl px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <button
@@ -72,7 +78,7 @@ const UrlForm = () => {
                 type="text"
                 readOnly
                 value={shortUrl}
-                className="flex-1 p-2 border border-gray-300 rounded-l-md bg-gray-50"
+                className="flex-1 p-2 border text-xl font-medium border-gray-300 rounded-l-md bg-gray-50 text-green-500"
               />
                <button
                 onClick={handleCopy}
@@ -85,8 +91,31 @@ const UrlForm = () => {
                 {copied ? 'Copied!' : 'Copy'}
               </button>
             </div>
+
+
+            <div className='flex justify-center mt-4'>
+            <div className='relative'>
+                <button
+                    onClick={handleQr}
+                    className={`cursor-pointer px-4 py-2 rounded-md transition-colors duration-200 bg-green-500 hover:bg-green-600 text-white font-medium`}
+                >{showQr ? 'Hide QR Code' : 'Show QR Code'}
+                </button>
+                    {
+                        showQr &&(
+                            <div>
+                            <h2 className="text-lg font-semibold mb-2">Or Scan this QR code</h2>
+                                <QRCodeSVG
+                                    value={url}
+                                    size={100}
+                                />
+                            </div>
+                        )
+                    }
+            </div>
+            </div>
           </div>
         )}
+        
       </div>
   )
 }
