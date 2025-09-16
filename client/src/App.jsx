@@ -1,11 +1,14 @@
 import './App.css'
+import UrlForm from './components/UrlForm'
+import HomePage from './pages/HomePage'
 
 function App() {
 
   return (
-    <>
-      hi there
-    </>
+    <div>
+      {/* <UrlForm/> */}
+      <HomePage/>
+    </div>
   )
 }
 
