@@ -1,17 +1,20 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 const UrlForm = () => {
   
+    const shortUrlRef = useRef(null);
+
   const [url, setUrl] = useState("")
   const [shortUrl, setShortUrl] = useState()
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState(null)
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleSubmit = async () => {
     setError(null);
     setCopied(false);
     try {
-      const response = await axios.post("http://localhost:3000/api/url/create", { url });
+      const response = await axios.post(backendUrl + "/api/url/create", { url });
       if (response.data && response.data.shortUrl) {
         setShortUrl(response.data.shortUrl);
         
@@ -25,6 +28,7 @@ const UrlForm = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shortUrl);
+    shortUrlRef.current?.select()
     setCopied(true);
     setTimeout(()=>{
         setCopied(false);
