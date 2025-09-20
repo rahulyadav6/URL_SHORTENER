@@ -9,7 +9,5 @@ router.get("/", (req,res) =>{
 
 router.post("/create", createShortUrl)
 
-router.get("/:shortUrl", getFullUrl)
-
 
 export default router;
