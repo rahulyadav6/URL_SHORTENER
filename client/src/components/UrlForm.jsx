@@ -1,11 +1,16 @@
 import axios from 'axios';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { UrlContext } from '../context/UrlContext';
 const UrlForm = () => {
   
     const shortUrlRef = useRef(null);
 
-  const [url, setUrl] = useState("")
+    const { url, setUrl } = useContext(UrlContext);
+    console.log(url);
+    
+
+  // const [url, setUrl] = useState("")
   const [shortUrl, setShortUrl] = useState()
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState(null)
