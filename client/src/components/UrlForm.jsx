@@ -1,20 +1,20 @@
 import axios from 'axios';
-import React, { useState, useRef, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { UrlContext } from '../context/UrlContext';
 const UrlForm = () => {
   
     const shortUrlRef = useRef(null);
 
-    const { url, setUrl } = useContext(UrlContext);
-    console.log(url);
+    const { url, setUrl, shortUrl, setShortUrl, copied, setCopied, error, setError, showQr, setShowQr} = useContext(UrlContext);
     
 
   // const [url, setUrl] = useState("")
-  const [shortUrl, setShortUrl] = useState()
-  const [copied, setCopied] = useState(false)
-  const [error, setError] = useState(null)
-  const [showQr, setShowQr] = useState(false);
+  // const [shortUrl, setShortUrl] = useState()
+  // const [copied, setCopied] = useState(false)
+  // const [error, setError] = useState(null)
+  // const [showQr, setShowQr] = useState(false);
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleSubmit = async () => {
