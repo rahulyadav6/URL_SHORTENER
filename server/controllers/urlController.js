@@ -8,15 +8,15 @@ export const createShortUrl = async(req,res)=>{
         const { url } = req.body;
 
         // this is direct method
-        // const shortUrl = generateNanoId(7);
-        // const newUrl = new urlSchema({
-        //     full_url: url,
-        //     short_url: shortUrl
-        // }) 
-        // await newUrl.save()
+        const shortUrl = generateNanoId(7);
+        const newUrl = new urlSchema({
+            full_url: url,
+            short_url: shortUrl
+        }) 
+        await newUrl.save()
 
         // this is by creating services it's like helper funciton.
-        const shortUrl = await createShortUrlService(url);
+        // const shortUrl = await createShortUrlService(url);
 
         res.status(200).json({success:true, shortUrl: process.env.APP_URL + shortUrl});
     } catch (error) {
